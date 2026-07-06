@@ -65,14 +65,12 @@ module timing_gen (
     always @(posedge clk or negedge reset_n) begin
         if (!reset_n) begin
             // ---- 复位状态 ----
-            // 当 reset_n = 0 时（复位被按下），所有信号归零
+            // 当 reset_n = 0 时（复位被按下），计数器清零，T 信号归零
+            // 注意：W 信号由下降沿触发的 always 块单独负责复位
             count <= 2'b00;  // 计数器清零（2'b00 是二进制数 00）
-            t1    <= 1'b0;   // 所有输出置 0
+            t1    <= 1'b0;   // 所有 T 输出置 0
             t2    <= 1'b0;
             t3    <= 1'b0;
-            w1    <= 1'b0;
-            w2    <= 1'b0;
-            w3    <= 1'b0;
         end else begin
             // ---- 正常工作 ----
             // 计数器加 1（模 3 循环）
@@ -123,31 +121,12 @@ module timing_gen (
             w2 <= 1'b0;
             w3 <= 1'b0;
         end else begin
-            // 根据计数器当前值产生 W 信号
-            // 这里读取 count 的值——注意 count 是在上升沿更新的，
-            // 而本 always 在下降沿触发，所以读到的是"上一次"的计数值
-            case (count)
-                2'b00: begin
-                    w1 <= 1'b1;     // T1 后半段产生 W1
-                    w2 <= 1'b0;
-                    w3 <= 1'b0;
-                end
-                2'b01: begin
-                    w1 <= 1'b0;
-                    w2 <= 1'b1;     // T2 后半段产生 W2
-                    w3 <= 1'b0;
-                end
-                2'b10: begin
-                    w1 <= 1'b0;
-                    w2 <= 1'b0;
-                    w3 <= 1'b1;     // T3 后半段产生 W3
-                end
-                default: begin
-                    w1 <= 1'b0;
-                    w2 <= 1'b0;
-                    w3 <= 1'b0;
-                end
-            endcase
+            // W 信号直接跟随 T 信号，延迟半个时钟周期
+            // 原理：T 在上升沿更新，W 在下降沿采样 T → 自然偏移半周期
+            // 这样写避免了直接读取 count 的同步问题
+            w1 <= t1;
+            w2 <= t2;
+            w3 <= t3;
         end
     end
 
