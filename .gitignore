@@ -2,24 +2,40 @@
 # TEC-8 模型机控制器项目 - Git 忽略规则
 # ============================================================
 
-# ---- Trae AI 工具配置（与项目代码无关）----
+# Trae AI 工具配置
 .trae/
 
-# ---- Quartus 编译产物（每次编译自动生成，不用版本管理）----
+# Quartus II 编译数据库
 db/
+incremental_db/
+
+# Quartus II 功能仿真网表
+simulation/
+
+# Quartus II 编译产物
+*.pof
+*.pin
+*.done
 *.dpf
 *.rpt
 *.summary
-incremental_db/
-.pof
-.pin
-.done
+*.qmsg
+*.qdf
+*.qarlog
+*.sld
 
-# ---- Office 临时文件（打开文档时自动生成）----
+# Icarus Verilog 仿真产物
+sim/*.vvp
+*.vcd
+*.lxt
+
+# 备份与临时文件
+*.bak
+*~
+
+# Office 临时文件
 ~$*
 
-# ---- 临时缓存文件 ----
+# 系统临时文件
 pdf_output.txt
-
-# ---- 旧垃圾文件 ----
-Verilog3.v
+Thumbs.db
