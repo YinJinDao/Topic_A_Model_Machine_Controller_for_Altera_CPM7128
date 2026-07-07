@@ -49,8 +49,11 @@ set_global_assignment -name DEVICE_FILTER_PIN_COUNT 84
 set_global_assignment -name DEVICE_FILTER_SPEED_GRADE 15
 set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
 set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_global_assignment -name VERILOG_FILE CPU.v
 set_global_assignment -name VERILOG_FILE alu_control.v
+set_global_assignment -name VERILOG_FILE control_unit.v
 set_global_assignment -name VERILOG_FILE instruction_decoder.v
+set_global_assignment -name VERILOG_FILE regfile_control.v
 set_global_assignment -name VERILOG_FILE timing_gen.v
 set_global_assignment -name OPTIMIZE_HOLD_TIMING OFF
 set_global_assignment -name FITTER_EFFORT "STANDARD FIT"

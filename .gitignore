@@ -10,6 +10,10 @@ db/
 *.dpf
 *.rpt
 *.summary
+incremental_db/
+.pof
+.pin
+.done
 
 # ---- Office 临时文件（打开文档时自动生成）----
 ~$*
